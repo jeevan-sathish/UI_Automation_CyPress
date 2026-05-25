@@ -1,13 +1,14 @@
-/* global describe, it, cy */
+/* global describe, beforeEach, it, cy, */
+
 describe("UI Automation", () => {
-  it("types and click automatically", () => {
+  beforeEach(() => {
     cy.visit("http://localhost:5173");
-    cy.get("input").type("hello jeevan");
-
+  });
+  it("login test", () => {
+    cy.get('[data-testid="username"]').type("jeevan");
+    cy.get('[data-testid="password"]').type("jeevan1234");
+    cy.wait(3000);
     cy.get("button").click();
-    cy.wait(1000);
-    cy.get("input").clear();
-
-    cy.contains("automation succesf");
+    cy.contains("UI Automation Login");
   });
 });
