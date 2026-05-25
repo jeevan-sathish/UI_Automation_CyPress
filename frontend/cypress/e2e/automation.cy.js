@@ -1,14 +1,24 @@
-/* global describe, beforeEach, it, cy, */
+/* global describe, beforeEach,expect, it, cy, */
 
-describe("UI Automation", () => {
+describe("APi testing", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:5173");
+    cy.visit("http://localhost:5173/");
   });
-  it("login test", () => {
+  it("input testing", () => {
     cy.get('[data-testid="username"]').type("jeevan");
-    cy.get('[data-testid="password"]').type("jeevan1234");
-    cy.wait(3000);
-    cy.get("button").click();
-    cy.contains("UI Automation Login");
+    cy.contains("submit").click();
+  });
+
+  it("API return replay", () => {
+    cy.request({
+      method: "POST",
+      url: "http://127.0.0.1:5000/api/data",
+      body: {
+        text: "hello",
+      },
+    }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.message).to.eq("Data received successfully: hello");
+    });
   });
 });

@@ -1,42 +1,30 @@
 import { useState } from "react";
+import axios from "axios";
 
 const App = () => {
-  const [data, setData] = useState({
-    name: "",
-    password: "",
-  });
+  const [text, setText] = useState("");
+  const [msg, setMsg] = useState("");
 
-  const [message, setMessage] = useState("");
-
-  function handleSubmit() {
-    setMessage(`this is ${data.name} this is ${data.password}`);
+  async function handleSubmit() {
+    const res = await axios.post("http://127.0.0.1:5000/api/data", {
+      text: text,
+    });
+    setMsg(res.data.message);
   }
-
   return (
     <div>
-      <h1>UI Automation Login</h1>
+      <h1>api test case</h1>
 
       <input
-        type="text"
         data-testid="username"
-        placeholder="name"
-        name="name"
-        value={data.name}
-        onChange={(e) => setData({ ...data, name: e.target.value })}
+        type="text"
+        placeholder="enter some text"
+        name="test"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
       />
-
-      <input
-        type="password"
-        data-testid="password"
-        placeholder="password"
-        name="password"
-        value={data.password}
-        onChange={(e) => setData({ ...data, password: e.target.value })}
-      />
-
-      <button onClick={handleSubmit}>Submit</button>
-
-      <p>{message}</p>
+      <button onClick={handleSubmit}>submit</button>
+      <h1>{msg}</h1>
     </div>
   );
 };
